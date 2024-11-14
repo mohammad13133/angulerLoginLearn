@@ -1,7 +1,19 @@
-<p>Welcome [name]</p>
-<p>go to:</p>
-<ul>
-  <li *ngFor="let page of pages">
-    {{ page }}
-  </li>
-</ul>
+<div class="container mt-5">
+  <div class="card text-center shadow">
+    <div class="card-body">
+      <h2>Welcome, {{ currentUser?.username || "Guest" }}</h2>
+      <p>Go to:</p>
+      <ul class="list-unstyled">
+        <li *ngIf="isLoggedIn && currentUser?.role === 'admin'">
+          <a class="btn btn-primary m-1" routerLink="/admin">Admin</a>
+        </li>
+        <li *ngIf="!isLoggedIn">
+          <a class="btn btn-success m-1" routerLink="/login">Login</a>
+        </li>
+        <li *ngIf="isLoggedIn">
+          <a class="btn btn-danger m-1" (click)="logout()">Logout</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>

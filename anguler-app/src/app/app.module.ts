@@ -9,6 +9,7 @@ import { AdminPageComponent } from './admin-page/admin-page.component';
 import { NoAccessPageComponent } from './no-access-page/no-access-page.component';
 import { provideHttpClient } from '@angular/common/http';
 import { ReactiveFormsModule } from '@angular/forms';
+import { SignUpComponent } from './sign-up/sign-up.component';
 
 @NgModule({
   declarations: [
@@ -17,6 +18,7 @@ import { ReactiveFormsModule } from '@angular/forms';
     HomePageComponent,
     AdminPageComponent,
     NoAccessPageComponent,
+    SignUpComponent,
   ],
   imports: [BrowserModule, AppRoutingModule, ReactiveFormsModule],
   providers: [provideHttpClient()],
