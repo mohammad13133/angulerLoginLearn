@@ -1,0 +1,1 @@
+This is my first Angular project, where I focused on learning the primary concepts of Angular, such as services, directives, and building forms. In this project, I implemented a login and signup feature using reactive forms, along with a simple backend built with Node.js.
