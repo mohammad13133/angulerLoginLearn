@@ -1,42 +1,37 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { jwtDecode } from 'jwt-decode';
+import { AuthRepository } from './auth-repository.service';
+
 interface DecodedToken {
   username: string;
   exp?: number;
   role: string;
 }
+
 @Injectable({
   providedIn: 'root',
 })
 export class LoginService {
-  private apiUrl = 'http://localhost:3000'; // Replace with your API URL
+  constructor(private authRepository: AuthRepository) {}
 
-  constructor(private http: HttpClient) {}
-  hello() {
-    return this.http.get(this.apiUrl);
-  }
   login(username: string, password: string): Observable<any> {
-    const body = { username, password };
-    const headers = new HttpHeaders({
-      'Content-Type': 'application/json',
-    });
-
-    return this.http.post(`${this.apiUrl}/login`, body);
+    return this.authRepository.login(username, password);
   }
+
   signup(username: string, password: string): Observable<any> {
-    const body = { username, password };
-    const headers = new HttpHeaders({
-      'Content-Type': 'application/json',
-    });
-
-    return this.http.post(`${this.apiUrl}/signup`, body);
+    return this.authRepository.signup(username, password);
   }
-  logout() {
+
+  hello(): Observable<any> {
+    return this.authRepository.hello();
+  }
+
+  logout(): void {
     localStorage.removeItem('token');
   }
-  getCurruntUser(): DecodedToken | null {
+
+  getCurrentUser(): DecodedToken | null {
     const token = localStorage.getItem('token');
     if (!token) {
       console.log('User not logged in');
@@ -45,20 +40,20 @@ export class LoginService {
 
     return jwtDecode<DecodedToken>(token);
   }
-  isLoggedIn() {
+
+  isLoggedIn(): boolean {
     const token = localStorage.getItem('token');
     if (!token) {
-      // console.log('User not logged in');
       return false;
     }
 
     try {
-      const { exp } = jwtDecode(token);
+      const { exp } = jwtDecode<DecodedToken>(token);
       if (!exp) return false;
-      console.log(jwtDecode(token));
+
       const isTokenValid = exp > Math.floor(Date.now() / 1000);
       console.log('Token expiration date:', new Date(exp * 1000));
-      console.log('tokon is valid?', isTokenValid);
+      console.log('Token is valid?', isTokenValid);
       return isTokenValid;
     } catch (error) {
       console.error('Error decoding token:', error);

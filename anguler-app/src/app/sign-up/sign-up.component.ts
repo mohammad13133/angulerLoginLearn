@@ -45,6 +45,7 @@ export class SignUpComponent {
         },
         error: (err) => {
           this.invalid = true;
+          console.error(err);
           this.errorMessage =
             err.error?.error || 'An error occurred during signup';
         },

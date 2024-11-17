@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { LoginService } from '../services/login.service';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-login-form',
@@ -19,7 +19,11 @@ export class LoginFormComponent {
   errorMessage: string = '';
   invalid = false;
 
-  constructor(private loginService: LoginService, private router: Router) {}
+  constructor(
+    private loginService: LoginService,
+    private router: Router,
+    private route: ActivatedRoute
+  ) {}
   get username() {
     return this.LoginForm.get('username');
   }
@@ -34,8 +38,9 @@ export class LoginFormComponent {
         next: (response) => {
           if (response && response.token) {
             console.log(response);
+            let returnUrl = this.route.snapshot.queryParamMap.get('returnUrl');
             localStorage.setItem('token', response.token);
-            this.router.navigate(['/']);
+            this.router.navigate([returnUrl || '/']);
             this.invalid = false;
           } else {
             this.invalid = true;

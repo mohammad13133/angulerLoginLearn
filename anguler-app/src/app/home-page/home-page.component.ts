@@ -16,8 +16,8 @@ export class HomePageComponent implements OnInit {
   constructor(private loginService: LoginService) {}
 
   ngOnInit() {
-    this.currentUser = this.loginService.getCurruntUser();
     this.isLoggedIn = this.loginService.isLoggedIn();
+    if (this.isLoggedIn) this.currentUser = this.loginService.getCurrentUser();
   }
 
   logout() {
