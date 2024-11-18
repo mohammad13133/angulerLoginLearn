@@ -1,1 +1,15 @@
-<p>admin-page works!</p>
+<div>
+  <input
+    type="text"
+    class="form-control"
+    id="exampleFormControlInput1"
+    placeholder="Enter a new item"
+    [(ngModel)]="newItem"
+    (keyup.enter)="addItem()"
+  />
+</div>
+<ul>
+  <li *ngFor="let item of list; index as i" @fade (click)="removeItem(i)">
+    {{ item }}
+  </li>
+</ul>
